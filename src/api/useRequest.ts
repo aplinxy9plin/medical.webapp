@@ -14,24 +14,26 @@ type UploadType = {
   }[]
 }
 
+const url = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+
 export const getSchema = async () => {
-  const data: { report: Schema, reportVersion: number } = (await (await fetch('http://localhost:3000/reports/get')).json())
+  const data: { report: Schema, reportVersion: number } = (await (await fetch(`${url}/reports/get`)).json())
   return data;
 }
 
 export const getFullSchema = async () => {
-  const data: Schema = (await (await fetch('http://localhost:3000/reports/fullSchema')).json())
+  const data: Schema = (await (await fetch(`${url}/reports/fullSchema`)).json())
   return data;
 }
 
 export const getAllUsers = async () => {
-  const data: User[] = (await (await fetch('http://localhost:3000/auth/get')).json())
+  const data: User[] = (await (await fetch(`${url}/auth/get`)).json())
   return data;
 }
 
 export const autocomplete = async (value: string) => {
   if(value){
-    const data = (await (await fetch(`http://localhost:3000/reports/autoComplete?value=${value}`)).text())
+    const data = (await (await fetch(`${url}/reports/autoComplete?value=${value}`)).text())
     console.log(data)
     return data;
   }
@@ -39,7 +41,7 @@ export const autocomplete = async (value: string) => {
 }
 
 export const updateSchema = async (newSchema: Schema) => {
-  const data = (await (await fetch('http://localhost:3000/reports/updateSchema', {
+  const data = (await (await fetch(`${url}/reports/updateSchema`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -51,7 +53,7 @@ export const updateSchema = async (newSchema: Schema) => {
 }
 
 export const uploadUser = async (uploadData: UploadType) => {
-  const data = (await (await fetch('http://localhost:3000/auth/upload', {
+  const data = (await (await fetch(`${url}/auth/upload`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
